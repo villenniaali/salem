@@ -134,7 +134,7 @@ window.TILASTOT = {
         { id: "saku", nimi: "Saku-Pekka Aaramaa", kapteeni: "C" },
         { id: "jussi", nimi: "Jussi Lehtisaari" },
         { id: "kimmo", nimi: "Kimmo Hyvärinen" },
-        { id: "jesse", nimi: "Jesse Ramsten" },
+        { id: "jesse", nimi: "Jesse Syvänen" },
         { id: "joel", nimi: "Joel Järvinen" },
         { id: "oskari", nimi: "Oskari Vettenranta" },
         { id: "vine", nimi: "Ville Vine" },
@@ -355,7 +355,7 @@ window.TILASTOT = {
       nimi: "Talvisarja 2025–26",
       pelaajatilastot: [
         { nimi: "Roni Joentausta", O: 15, M: 7, S: 19, J: 6 },
-        { nimi: "Jesse Ramsten", O: 13, M: 18, S: 7, J: 15 },
+        { nimi: "Jesse Syvänen", O: 13, M: 18, S: 7, J: 15 },
         { nimi: "Kalle Koivusalo", O: 15, M: 7, S: 14, J: 0 },
         { nimi: "Kimmo Hyvärinen", O: 15, M: 6, S: 13, J: 6 },
         { nimi: "Miko Olander", O: 11, M: 9, S: 9, J: 12 },
