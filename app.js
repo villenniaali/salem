@@ -126,6 +126,7 @@
     const onOttelut = ottelut.length > 0;
 
     document.title = `${data.joukkue} – ${kausi.nimi}`;
+    document.getElementById("tilanne").textContent = kausi.tilanne ? `Tilanne ${kausi.tilanne}` : "";
     for (const id of ["yhteenveto", "joukkue", "maalivahdit", "ottelut"]) naytaOsio(id, onOttelut);
 
     const pisteet = pistejarjestys(kausi.pelaajatilastot || laskePelaajat(pelaajat, ottelut));
@@ -135,7 +136,7 @@
     document.getElementById("pelaajat").replaceChildren(taulukko([
       { otsikko: "Sija", luku: true, arvo: (r) => r.sija + "." },
       onNumerot && { otsikko: "#", luku: true, arvo: (r) => r.numero ?? "" },
-      { otsikko: "Pelaaja", arvo: (r) => r.nimi },
+      { otsikko: "Pelaaja", arvo: (r) => r.nimi + (r.kapteeni ? ` (${r.kapteeni})` : "") },
       onPaikat && { otsikko: "PP", selite: "Pelipaikka", arvo: (r) => r.pelipaikka ?? "" },
       { otsikko: "O", selite: "Ottelut", luku: true, arvo: (r) => r.O },
       { otsikko: "M", selite: "Maalit", luku: true, arvo: (r) => r.M },

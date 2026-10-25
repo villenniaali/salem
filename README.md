@@ -32,7 +32,9 @@ Riittää pistepörssiin. Pisteet, sijat ja per ottelu -luvut lasketaan itse.
 }
 ```
 
-Rivillä voi olla myös `numero` ja `pelipaikka` ("H", "P"), jolloin ne näkyvät taulukossa.
+Rivillä voi olla myös `kapteeni` ("C" tai "A"), `numero` ja `pelipaikka` ("H", "P"),
+jolloin ne näkyvät taulukossa. Jos luvut ovat kesken kauden, kaudelle voi
+lisätä kentän `tilanne: "10.1.2025"`, joka näytetään kausivalinnan vieressä.
 
 ### 2. Ottelukohtaiset tiedot
 
