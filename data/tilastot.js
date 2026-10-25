@@ -1,80 +1,40 @@
 // Salem Zealots – tilastojen lähdetiedot.
-// Kaikki sivun tilastot lasketaan tästä tiedostosta. Lisää uusi ottelu
-// "ottelut"-listan loppuun; pelaajiin viitataan pelinumerolla.
+// Kaikki sivun tilastot lasketaan tästä tiedostosta. Jokainen kausi
+// (tai sarjavaihe) on oma kohtansa "kaudet"-listassa; uusin ensin.
 //
-// HUOM: alla oleva sisältö on esimerkkidataa. Korvaa omilla tiedoillasi.
+// Kauden tiedot voi antaa kahdella tavalla (ks. README):
+//  1. pelaajatilastot: valmiit kokonaisluvut pelaajittain
+//     (O = ottelut, M = maalit, S = syötöt, J = jäähyminuutit).
+//     Pisteet ja per ottelu -luvut lasketaan automaattisesti.
+//  2. pelaajat + ottelut: ottelukohtaiset tiedot, joista lasketaan myös
+//     joukkue- ja maalivahtitilastot sekä otteluluettelo.
 
 window.TILASTOT = {
   joukkue: "Salem Zealots",
-  kausi: "2026–2027",
 
-  // pelipaikka: "H" = hyökkääjä, "P" = puolustaja, "MV" = maalivahti
-  pelaajat: [
-    { numero: 1, nimi: "Esimerkki Maalivahti", pelipaikka: "MV" },
-    { numero: 4, nimi: "Esimerkki Puolustaja", pelipaikka: "P" },
-    { numero: 7, nimi: "Toinen Puolustaja", pelipaikka: "P" },
-    { numero: 11, nimi: "Esimerkki Keskushyökkääjä", pelipaikka: "H" },
-    { numero: 17, nimi: "Esimerkki Laituri", pelipaikka: "H" },
-    { numero: 22, nimi: "Toinen Laituri", pelipaikka: "H" },
-    { numero: 30, nimi: "Varamaalivahti", pelipaikka: "MV" },
-  ],
-
-  // tulos: omat / vastustajan maalit. jatkoaika: true, jos ratkesi
-  // jatkoajalla tai voittolaukauskilpailussa.
-  // pelanneet: pelinumerot, jotka pelasivat ottelussa (maalivahdit mukaan).
-  // maalit: vain omat maalit; syotot 0–2 pelinumeroa.
-  // jaahyt: pelinumero ja minuutit.
-  // maalivahdit: torjunnat ja päästetyt maalit maalivahdeittain.
-  ottelut: [
+  kaudet: [
     {
-      pvm: "2026-10-04",
-      vastustaja: "Esimerkki HC",
-      koti: true,
-      omat: 4,
-      vastustajan: 2,
-      jatkoaika: false,
-      pelanneet: [1, 4, 7, 11, 17, 22],
-      maalit: [
-        { maali: 11, syotot: [17, 4] },
-        { maali: 17, syotot: [11] },
-        { maali: 22, syotot: [7, 11] },
-        { maali: 11, syotot: [] },
+      nimi: "Runkosarja 2025–2026",
+      pelaajatilastot: [
+        { nimi: "Roni Joentausta", O: 15, M: 7, S: 19, J: 6 },
+        { nimi: "Jesse Ramsten", O: 13, M: 18, S: 7, J: 15 },
+        { nimi: "Kalle Koivusalo", O: 15, M: 7, S: 14, J: 0 },
+        { nimi: "Kimmo Hyvärinen", O: 15, M: 6, S: 13, J: 6 },
+        { nimi: "Miko Olander", O: 11, M: 9, S: 9, J: 12 },
+        { nimi: "Ville Sainio", O: 16, M: 6, S: 9, J: 3 },
+        { nimi: "Saku-Pekka Aaramaa", O: 14, M: 4, S: 9, J: 6 },
+        { nimi: "Severi Tammivuo", O: 8, M: 6, S: 3, J: 9 },
+        { nimi: "Chris Bezek", O: 11, M: 6, S: 2, J: 19 },
+        { nimi: "Joel Järvinen", O: 11, M: 3, S: 4, J: 0 },
+        { nimi: "Ville Vine", O: 11, M: 4, S: 2, J: 6 },
+        { nimi: "Mikael Lehtinen", O: 3, M: 5, S: 0, J: 0 },
+        { nimi: "Jussi Lehtisaari", O: 6, M: 2, S: 3, J: 9 },
+        { nimi: "Sami Heinonen", O: 4, M: 1, S: 4, J: 3 },
+        { nimi: "Veeti Vesaranta", O: 13, M: 0, S: 4, J: 6 },
+        { nimi: "Aapo Jokinen", O: 6, M: 2, S: 1, J: 3 },
+        { nimi: "Titus Naamanka", O: 1, M: 1, S: 2, J: 0 },
+        { nimi: "Oskari Vettenranta", O: 15, M: 0, S: 3, J: 3 },
       ],
-      jaahyt: [
-        { pelaaja: 4, min: 2 },
-        { pelaaja: 22, min: 2 },
-      ],
-      maalivahdit: [{ pelaaja: 1, torjunnat: 24, paastetyt: 2 }],
-    },
-    {
-      pvm: "2026-10-11",
-      vastustaja: "Testi Tigers",
-      koti: false,
-      omat: 2,
-      vastustajan: 3,
-      jatkoaika: true,
-      pelanneet: [4, 7, 11, 17, 22, 30],
-      maalit: [
-        { maali: 4, syotot: [11, 22] },
-        { maali: 17, syotot: [11] },
-      ],
-      jaahyt: [{ pelaaja: 7, min: 2 }],
-      maalivahdit: [{ pelaaja: 30, torjunnat: 29, paastetyt: 3 }],
-    },
-    {
-      pvm: "2026-10-18",
-      vastustaja: "Malli Kiekko",
-      koti: true,
-      omat: 1,
-      vastustajan: 3,
-      jatkoaika: false,
-      pelanneet: [1, 4, 7, 11, 17],
-      maalit: [{ maali: 7, syotot: [17] }],
-      jaahyt: [
-        { pelaaja: 11, min: 2 },
-        { pelaaja: 17, min: 10 },
-      ],
-      maalivahdit: [{ pelaaja: 1, torjunnat: 31, paastetyt: 3 }],
     },
   ],
 };

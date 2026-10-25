@@ -9,27 +9,27 @@
 <body>
   <header>
     <h1 id="otsikko">Salem Zealots</h1>
-    <p id="kausi"></p>
+    <select id="kausi" aria-label="Kausi"></select>
   </header>
   <main>
     <p id="virhe" class="virhe"></p>
-    <section id="yhteenveto" class="kortit"></section>
+    <section id="yhteenveto" class="kortit" data-osio="yhteenveto"></section>
 
-    <h2>Joukkue</h2>
-    <section id="joukkue"></section>
+    <h2 data-osio="joukkue">Joukkue</h2>
+    <section id="joukkue" data-osio="joukkue"></section>
 
     <h2>Pistepörssi</h2>
     <section id="pelaajat"></section>
 
-    <h2>Maalivahdit</h2>
-    <section id="maalivahdit"></section>
+    <h2 data-osio="maalivahdit">Maalivahdit</h2>
+    <section id="maalivahdit" data-osio="maalivahdit"></section>
 
-    <h2>Ottelut</h2>
-    <section id="ottelut"></section>
+    <h2 data-osio="ottelut">Ottelut</h2>
+    <section id="ottelut" data-osio="ottelut"></section>
   </main>
   <footer>
-    V = voitto, JV = jatkoaikavoitto, JH = jatkoaikahäviö, H = häviö.
-    Sarjapisteet 3–2–1–0. Vie hiiri sarakeotsikon päälle nähdäksesi selitteen.
+    O = ottelut, M = maalit, S = syötöt, P = pisteet, J = jäähyminuutit,
+    /O = per ottelu. Vie hiiri sarakeotsikon päälle nähdäksesi selitteen.
   </footer>
   <script src="data/tilastot.js"></script>
   <script src="app.js"></script>

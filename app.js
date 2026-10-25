@@ -29,7 +29,7 @@
   function laskePelaajat(pelaajat, ottelut) {
     const rivit = new Map();
     for (const p of pelaajat) {
-      rivit.set(p.numero, { ...p, O: 0, M: 0, S: 0, PIM: 0 });
+      rivit.set(p.numero, { ...p, O: 0, M: 0, S: 0, J: 0 });
     }
     const hae = (nro) => {
       const r = rivit.get(nro);
@@ -42,12 +42,20 @@
         hae(m.maali).M++;
         for (const s of m.syotot) hae(s).S++;
       }
-      for (const j of o.jaahyt) hae(j.pelaaja).PIM += j.min;
+      for (const j of o.jaahyt) hae(j.pelaaja).J += j.min;
     }
-    return [...rivit.values()]
-      .filter((r) => r.pelipaikka !== "MV")
+    return [...rivit.values()].filter((r) => r.pelipaikka !== "MV");
+  }
+
+  // Järjestää pistepörssin ja antaa tasapisteissä oleville saman sijan.
+  function pistejarjestys(rivit) {
+    const jarj = rivit
       .map((r) => ({ ...r, P: r.M + r.S }))
-      .sort((a, b) => b.P - a.P || b.M - a.M || a.O - b.O || a.numero - b.numero);
+      .sort((a, b) => b.P - a.P || b.M - a.M || a.O - b.O || a.nimi.localeCompare(b.nimi, "fi"));
+    jarj.forEach((r, i) => {
+      r.sija = i > 0 && jarj[i - 1].P === r.P ? jarj[i - 1].sija : i + 1;
+    });
+    return jarj;
   }
 
   function laskeMaalivahdit(pelaajat, ottelut) {
@@ -107,13 +115,39 @@
     return `${p}.${k}.${v}`;
   };
 
-  function piirra() {
-    const ottelut = [...data.ottelut].sort((a, b) => a.pvm.localeCompare(b.pvm));
-    const nimi = (nro) => data.pelaajat.find((p) => p.numero === nro)?.nimi ?? "#" + nro;
+  const naytaOsio = (id, nayta) => {
+    for (const e of document.querySelectorAll(`[data-osio="${id}"]`)) e.hidden = !nayta;
+  };
 
-    document.title = `${data.joukkue} – tilastot ${data.kausi}`;
-    document.getElementById("otsikko").textContent = data.joukkue;
-    document.getElementById("kausi").textContent = "Kausi " + data.kausi;
+  function piirraKausi(kausi) {
+    const ottelut = [...(kausi.ottelut || [])].sort((a, b) => a.pvm.localeCompare(b.pvm));
+    const pelaajat = kausi.pelaajat || [];
+    const nimi = (nro) => pelaajat.find((p) => p.numero === nro)?.nimi ?? "#" + nro;
+    const onOttelut = ottelut.length > 0;
+
+    document.title = `${data.joukkue} – ${kausi.nimi}`;
+    for (const id of ["yhteenveto", "joukkue", "maalivahdit", "ottelut"]) naytaOsio(id, onOttelut);
+
+    const pisteet = pistejarjestys(kausi.pelaajatilastot || laskePelaajat(pelaajat, ottelut));
+    const onNumerot = pisteet.some((r) => r.numero != null);
+    const onPaikat = pisteet.some((r) => r.pelipaikka);
+    const perOttelu = (x, r) => (r.O ? desim(x / r.O) : "–");
+    document.getElementById("pelaajat").replaceChildren(taulukko([
+      { otsikko: "Sija", luku: true, arvo: (r) => r.sija + "." },
+      onNumerot && { otsikko: "#", luku: true, arvo: (r) => r.numero ?? "" },
+      { otsikko: "Pelaaja", arvo: (r) => r.nimi },
+      onPaikat && { otsikko: "PP", selite: "Pelipaikka", arvo: (r) => r.pelipaikka ?? "" },
+      { otsikko: "O", selite: "Ottelut", luku: true, arvo: (r) => r.O },
+      { otsikko: "M", selite: "Maalit", luku: true, arvo: (r) => r.M },
+      { otsikko: "S", selite: "Syötöt", luku: true, arvo: (r) => r.S },
+      { otsikko: "P", selite: "Pisteet", luku: true, arvo: (r) => r.P },
+      { otsikko: "J", selite: "Jäähyminuutit", luku: true, arvo: (r) => r.J },
+      { otsikko: "M/O", selite: "Maalit per ottelu", luku: true, arvo: (r) => perOttelu(r.M, r) },
+      { otsikko: "S/O", selite: "Syötöt per ottelu", luku: true, arvo: (r) => perOttelu(r.S, r) },
+      { otsikko: "P/O", selite: "Pisteet per ottelu", luku: true, arvo: (r) => perOttelu(r.P, r) },
+    ].filter(Boolean), pisteet));
+
+    if (!onOttelut) return;
 
     const t = laskeJoukkue(ottelut);
     const kortit = [
@@ -140,18 +174,6 @@
       { otsikko: "P", selite: "Sarjapisteet", luku: true, arvo: (r) => r.P },
     ], [t]));
 
-    document.getElementById("pelaajat").replaceChildren(taulukko([
-      { otsikko: "#", luku: true, arvo: (r) => r.numero },
-      { otsikko: "Pelaaja", arvo: (r) => r.nimi },
-      { otsikko: "PP", selite: "Pelipaikka", arvo: (r) => r.pelipaikka },
-      { otsikko: "O", selite: "Ottelut", luku: true, arvo: (r) => r.O },
-      { otsikko: "M", selite: "Maalit", luku: true, arvo: (r) => r.M },
-      { otsikko: "S", selite: "Syötöt", luku: true, arvo: (r) => r.S },
-      { otsikko: "P", selite: "Pisteet", luku: true, arvo: (r) => r.P },
-      { otsikko: "P/O", selite: "Pisteet per ottelu", luku: true, arvo: (r) => (r.O ? desim(r.P / r.O) : "–") },
-      { otsikko: "J", selite: "Jäähyminuutit", luku: true, arvo: (r) => r.PIM },
-    ], laskePelaajat(data.pelaajat, ottelut)));
-
     document.getElementById("maalivahdit").replaceChildren(taulukko([
       { otsikko: "#", luku: true, arvo: (r) => r.numero },
       { otsikko: "Maalivahti", arvo: (r) => r.nimi },
@@ -162,7 +184,7 @@
       { otsikko: "T%", selite: "Torjuntaprosentti", luku: true, arvo: (r) => pros(r.torjuntaPros) },
       { otsikko: "PM/O", selite: "Päästetyt maalit per ottelu", luku: true, arvo: (r) => desim(r.pmKa) },
       { otsikko: "NP", selite: "Nollapelit", luku: true, arvo: (r) => r.NP },
-    ], laskeMaalivahdit(data.pelaajat, ottelut)));
+    ], laskeMaalivahdit(pelaajat, ottelut)));
 
     document.getElementById("ottelut").replaceChildren(taulukko([
       { otsikko: "Pvm", arvo: (o) => pvm(o.pvm) },
@@ -173,10 +195,24 @@
     ], ottelut.reverse()));
   }
 
-  try {
-    piirra();
-  } catch (e) {
-    document.getElementById("virhe").textContent = "Virhe tilastodatassa: " + e.message;
-    throw e;
+  function piirra() {
+    document.getElementById("otsikko").textContent = data.joukkue;
+    const valinta = document.getElementById("kausi");
+    valinta.replaceChildren(...data.kaudet.map((k, i) => el("option", { value: i }, k.nimi)));
+    valinta.disabled = data.kaudet.length < 2;
+    valinta.onchange = () => naytaKausi(data.kaudet[valinta.value]);
+    naytaKausi(data.kaudet[0]);
   }
+
+  function naytaKausi(kausi) {
+    document.getElementById("virhe").textContent = "";
+    try {
+      piirraKausi(kausi);
+    } catch (e) {
+      document.getElementById("virhe").textContent = "Virhe tilastodatassa: " + e.message;
+      throw e;
+    }
+  }
+
+  piirra();
 })();

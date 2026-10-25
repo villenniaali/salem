@@ -1,41 +1,70 @@
 # Salem Zealots – tilastot
 
-Salem Zealots -jääkiekkojoukkueen tilastosivu. Sivu laskee yhdestä
-datatiedostosta:
+Salem Zealots -jääkiekkojoukkueen tilastosivu. Avaa `index.html` selaimessa –
+palvelinta tai asennuksia ei tarvita. Sivun voi julkaista sellaisenaan esim.
+GitHub Pagesissa.
 
-- **Joukkue**: ottelut, voitot/jatkoaikavoitot/-häviöt/häviöt, maalit, maaliero, sarjapisteet (3–2–1–0)
-- **Pistepörssi**: pelaajien ottelut, maalit, syötöt, pisteet, pisteet/ottelu ja jäähyminuutit
-- **Maalivahdit**: ottelut, voitot, torjunnat, päästetyt maalit, torjuntaprosentti, päästetyt/ottelu, nollapelit
-- **Ottelut**: tulokset ja maalintekijät
+Sivu näyttää kausittain:
 
-## Käyttö
+- **Pistepörssi**: sija, ottelut, maalit, syötöt, pisteet, jäähyminuutit ja per ottelu -luvut
+- ottelukohtaisista tiedoista lisäksi **joukkueen** tilastot (V/JV/JH/H, maalit, sarjapisteet 3–2–1–0),
+  **maalivahtien** tilastot (torjunnat, T%, nollapelit) ja **otteluluettelo**
 
-Avaa `index.html` selaimessa – palvelinta tai asennuksia ei tarvita.
-Sivun voi julkaista sellaisenaan esim. GitHub Pagesissa.
+Kausi valitaan otsikon alta, kun kausia on useampi.
 
 ## Tietojen päivitys
 
-Kaikki tiedot ovat tiedostossa [`data/tilastot.js`](data/tilastot.js).
-Nykyinen sisältö on **esimerkkidataa** – korvaa pelaajat ja ottelut omillasi.
+Kaikki tiedot ovat tiedostossa [`data/tilastot.js`](data/tilastot.js), jossa
+jokainen kausi tai sarjavaihe on oma kohtansa `kaudet`-listassa (uusin ensin).
+Kauden tiedot voi antaa kahdella tavalla.
 
-Uusi ottelu lisätään `ottelut`-listaan:
+### 1. Valmiit kokonaisluvut
+
+Riittää pistepörssiin. Pisteet, sijat ja per ottelu -luvut lasketaan itse.
 
 ```js
 {
-  pvm: "2026-10-25",
-  vastustaja: "Vastustaja HC",
-  koti: true,              // kotiottelu?
-  omat: 3,                 // omat maalit
-  vastustajan: 2,          // vastustajan maalit
-  jatkoaika: false,        // ratkesiko jatkoajalla / voittolaukauksilla
-  pelanneet: [1, 4, 11],   // pelanneiden pelinumerot
-  maalit: [                // omat maalit: tekijä ja 0–2 syöttäjää
-    { maali: 11, syotot: [4] },
+  nimi: "Runkosarja 2025–2026",
+  pelaajatilastot: [
+    // O = ottelut, M = maalit, S = syötöt, J = jäähyminuutit
+    { nimi: "Pelaaja Yksi", O: 15, M: 7, S: 19, J: 6 },
   ],
-  jaahyt: [{ pelaaja: 4, min: 2 }],
-  maalivahdit: [{ pelaaja: 1, torjunnat: 25, paastetyt: 2 }],
 }
 ```
 
-Jos datassa viitataan pelinumeroon, jota ei ole `pelaajat`-listassa,
+Rivillä voi olla myös `numero` ja `pelipaikka` ("H", "P"), jolloin ne näkyvät taulukossa.
+
+### 2. Ottelukohtaiset tiedot
+
+Tästä lasketaan myös joukkue- ja maalivahtitilastot sekä otteluluettelo.
+
+```js
+{
+  nimi: "Runkosarja 2026–2027",
+  // pelipaikka: "H" = hyökkääjä, "P" = puolustaja, "MV" = maalivahti
+  pelaajat: [
+    { numero: 1, nimi: "Maalivahti", pelipaikka: "MV" },
+    { numero: 4, nimi: "Puolustaja", pelipaikka: "P" },
+    { numero: 11, nimi: "Hyökkääjä", pelipaikka: "H" },
+  ],
+  ottelut: [
+    {
+      pvm: "2026-10-25",
+      vastustaja: "Vastustaja HC",
+      koti: true,              // kotiottelu?
+      omat: 3,                 // omat maalit
+      vastustajan: 2,          // vastustajan maalit
+      jatkoaika: false,        // ratkesiko jatkoajalla / voittolaukauksilla
+      pelanneet: [1, 4, 11],   // pelanneiden pelinumerot
+      maalit: [                // omat maalit: tekijä ja 0–2 syöttäjää
+        { maali: 11, syotot: [4] },
+      ],
+      jaahyt: [{ pelaaja: 4, min: 2 }],
+      maalivahdit: [{ pelaaja: 1, torjunnat: 25, paastetyt: 2 }],
+    },
+  ],
+}
+```
+
+Jos ottelutiedoissa viitataan pelinumeroon, jota ei ole `pelaajat`-listassa,
 sivulle tulee virheilmoitus.
