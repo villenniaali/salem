@@ -36,6 +36,11 @@ Rivillä voi olla myös `kapteeni` ("C" tai "A"), `numero` ja `pelipaikka` ("H",
 jolloin ne näkyvät taulukossa. Jos luvut ovat kesken kauden, kaudelle voi
 lisätä kentän `tilanne: "10.1.2025"`, joka näytetään kausivalinnan vieressä.
 
+Kokonaislukujen jälkeen pelatut ottelut voi lisätä samalle kaudelle
+`pelaajat`- ja `ottelut`-listoina (ks. alla). Ne lasketaan kokonaislukujen
+päälle; pelaajat yhdistetään nimellä. Joukkue- ja maalivahtitilastoja ei
+tällöin näytetä, koska ne olisivat vain osasta kautta.
+
 ### 2. Ottelukohtaiset tiedot
 
 Tästä lasketaan myös joukkue- ja maalivahtitilastot sekä otteluluettelo.
@@ -62,11 +67,15 @@ Tästä lasketaan myös joukkue- ja maalivahtitilastot sekä otteluluettelo.
         { maali: 11, syotot: [4] },
       ],
       jaahyt: [{ pelaaja: 4, min: 2 }],
-      maalivahdit: [{ pelaaja: 1, torjunnat: 25, paastetyt: 2 }],
+      maalivahdit: [{ pelaaja: 1, torjunnat: 25, paastetyt: 2 }],  // torjunnat voi jättää pois
     },
   ],
 }
 ```
+
+Jos pöytäkirjassa syötöt on merkitty vain pelaajittain, jätä maalien
+`syotot` tyhjiksi ja anna ne ottelulle erikseen:
+`syotot: [{ pelaaja: 4, maara: 2 }]`.
 
 Jos ottelutiedoissa viitataan pelinumeroon, jota ei ole `pelaajat`-listassa,
 sivulle tulee virheilmoitus.

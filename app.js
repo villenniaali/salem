@@ -42,9 +42,28 @@
         hae(m.maali).M++;
         for (const s of m.syotot) hae(s).S++;
       }
+      for (const s of o.syotot || []) hae(s.pelaaja).S += s.maara;
       for (const j of o.jaahyt) hae(j.pelaaja).J += j.min;
     }
     return [...rivit.values()].filter((r) => r.pelipaikka !== "MV");
+  }
+
+  // Lisää kokonaislukuihin niiden jälkeen pelattujen otteluiden tilastot.
+  // Pelaajat yhdistetään nimellä; pelaajat-listasta tulevat myös pelinumerot.
+  function yhdista(pohja, lasketut) {
+    const rivit = new Map(pohja.map((r) => [r.nimi, { ...r }]));
+    for (const l of lasketut) {
+      const r = rivit.get(l.nimi);
+      if (r) {
+        r.numero ??= l.numero;
+        r.pelipaikka ??= l.pelipaikka;
+        r.kapteeni ??= l.kapteeni;
+        for (const k of ["O", "M", "S", "J"]) r[k] += l[k];
+      } else if (l.O > 0) {
+        rivit.set(l.nimi, { ...l });
+      }
+    }
+    return [...rivit.values()];
   }
 
   // Järjestää pistepörssin ja antaa tasapisteissä oleville saman sijan.
@@ -68,7 +87,8 @@
         const r = rivit.get(mv.pelaaja);
         if (!r) throw new Error("Maalivahtia ei löydy: " + mv.pelaaja);
         r.O++;
-        r.T += mv.torjunnat;
+        // Jos torjunnat puuttuvat yhdestäkin ottelusta, niitä ei lasketa.
+        r.T = r.T == null || mv.torjunnat == null ? null : r.T + mv.torjunnat;
         r.PM += mv.paastetyt;
         if (mv.paastetyt === 0) r.NP++;
       }
@@ -83,7 +103,7 @@
         const laukaukset = r.T + r.PM;
         return {
           ...r,
-          torjuntaPros: laukaukset ? r.T / laukaukset : null,
+          torjuntaPros: r.T != null && laukaukset ? r.T / laukaukset : null,
           pmKa: r.O ? r.PM / r.O : null,
         };
       })
@@ -126,10 +146,16 @@
     const onOttelut = ottelut.length > 0;
 
     document.title = `${data.joukkue} – ${kausi.nimi}`;
-    document.getElementById("tilanne").textContent = kausi.tilanne ? `Tilanne ${kausi.tilanne}` : "";
-    for (const id of ["yhteenveto", "joukkue", "maalivahdit", "ottelut"]) naytaOsio(id, onOttelut);
+    // Kokonaislukujen päälle lisätyistä otteluista ei voi laskea koko kauden
+    // joukkue- ja maalivahtitilastoja, joten niistä näytetään vain ottelulista.
+    const onKokonaiset = Boolean(kausi.pelaajatilastot);
+    const tilanne = onKokonaiset && onOttelut ? pvm(ottelut.at(-1).pvm) : kausi.tilanne;
+    document.getElementById("tilanne").textContent = tilanne ? `Tilanne ${tilanne}` : "";
+    for (const id of ["yhteenveto", "joukkue", "maalivahdit"]) naytaOsio(id, onOttelut && !onKokonaiset);
+    naytaOsio("ottelut", onOttelut);
 
-    const pisteet = pistejarjestys(kausi.pelaajatilastot || laskePelaajat(pelaajat, ottelut));
+    const lasketut = laskePelaajat(pelaajat, ottelut);
+    const pisteet = pistejarjestys(onKokonaiset ? yhdista(kausi.pelaajatilastot, lasketut) : lasketut);
     const onNumerot = pisteet.some((r) => r.numero != null);
     const onPaikat = pisteet.some((r) => r.pelipaikka);
     const perOttelu = (x, r) => (r.O ? desim(x / r.O) : "–");
@@ -149,6 +175,8 @@
     ].filter(Boolean), pisteet));
 
     if (!onOttelut) return;
+    piirraOttelut(ottelut, nimi);
+    if (onKokonaiset) return;
 
     const t = laskeJoukkue(ottelut);
     const kortit = [
@@ -180,20 +208,32 @@
       { otsikko: "Maalivahti", arvo: (r) => r.nimi },
       { otsikko: "O", selite: "Ottelut", luku: true, arvo: (r) => r.O },
       { otsikko: "V", selite: "Voitot", luku: true, arvo: (r) => r.V },
-      { otsikko: "T", selite: "Torjunnat", luku: true, arvo: (r) => r.T },
+      { otsikko: "T", selite: "Torjunnat", luku: true, arvo: (r) => r.T ?? "–" },
       { otsikko: "PM", selite: "Päästetyt maalit", luku: true, arvo: (r) => r.PM },
       { otsikko: "T%", selite: "Torjuntaprosentti", luku: true, arvo: (r) => pros(r.torjuntaPros) },
       { otsikko: "PM/O", selite: "Päästetyt maalit per ottelu", luku: true, arvo: (r) => desim(r.pmKa) },
       { otsikko: "NP", selite: "Nollapelit", luku: true, arvo: (r) => r.NP },
     ], laskeMaalivahdit(pelaajat, ottelut)));
+  }
 
+  // "Pelaaja A 2, Pelaaja B" maalimäärän mukaan järjestettynä.
+  function maalintekijat(o, nimi) {
+    const maarat = new Map();
+    for (const m of o.maalit) maarat.set(m.maali, (maarat.get(m.maali) || 0) + 1);
+    return [...maarat]
+      .sort((a, b) => b[1] - a[1])
+      .map(([nro, n]) => nimi(nro) + (n > 1 ? " " + n : ""))
+      .join(", ") || "–";
+  }
+
+  function piirraOttelut(ottelut, nimi) {
     document.getElementById("ottelut").replaceChildren(taulukko([
       { otsikko: "Pvm", arvo: (o) => pvm(o.pvm) },
       { otsikko: "Ottelu", arvo: (o) => (o.koti ? `${data.joukkue} – ${o.vastustaja}` : `${o.vastustaja} – ${data.joukkue}`) },
       { otsikko: "Tulos", arvo: (o) => (o.koti ? `${o.omat}–${o.vastustajan}` : `${o.vastustajan}–${o.omat}`) + (o.jatkoaika ? " ja" : "") },
       { otsikko: "", arvo: (o) => otteluTulos(o) },
-      { otsikko: "Omat maalintekijät", rivita: true, arvo: (o) => o.maalit.map((m) => nimi(m.maali)).join(", ") || "–" },
-    ], ottelut.reverse()));
+      { otsikko: "Omat maalintekijät", rivita: true, arvo: (o) => maalintekijat(o, nimi) },
+    ], [...ottelut].reverse()));
   }
 
   function piirra() {
