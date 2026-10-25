@@ -151,8 +151,10 @@
     const onKokonaiset = Boolean(kausi.pelaajatilastot);
     const tilanne = onKokonaiset && onOttelut ? pvm(ottelut.at(-1).pvm) : kausi.tilanne;
     document.getElementById("tilanne").textContent = tilanne ? `Tilanne ${tilanne}` : "";
-    for (const id of ["yhteenveto", "joukkue", "maalivahdit"]) naytaOsio(id, onOttelut && !onKokonaiset);
+    for (const id of ["yhteenveto", "joukkue"]) naytaOsio(id, onOttelut && !onKokonaiset);
+    naytaOsio("maalivahdit", Boolean(kausi.maalivahtitilastot) || (onOttelut && !onKokonaiset));
     naytaOsio("ottelut", onOttelut);
+    if (kausi.maalivahtitilastot) piirraMaalivahtitilastot(kausi.maalivahtitilastot);
 
     const lasketut = laskePelaajat(pelaajat, ottelut);
     const pisteet = pistejarjestys(onKokonaiset ? yhdista(kausi.pelaajatilastot, lasketut) : lasketut);
@@ -214,6 +216,19 @@
       { otsikko: "PM/O", selite: "Päästetyt maalit per ottelu", luku: true, arvo: (r) => desim(r.pmKa) },
       { otsikko: "NP", selite: "Nollapelit", luku: true, arvo: (r) => r.NP },
     ], laskeMaalivahdit(pelaajat, ottelut)));
+  }
+
+  function piirraMaalivahtitilastot(rivit) {
+    document.getElementById("maalivahdit").replaceChildren(taulukko([
+      { otsikko: "Maalivahti", arvo: (r) => r.nimi },
+      { otsikko: "O", selite: "Ottelut", luku: true, arvo: (r) => r.O },
+      { otsikko: "V", selite: "Voitot", luku: true, arvo: (r) => r.V ?? "–" },
+      { otsikko: "TP", selite: "Tasapelit", luku: true, arvo: (r) => r.TP ?? "–" },
+      { otsikko: "H", selite: "Häviöt", luku: true, arvo: (r) => r.H ?? "–" },
+      { otsikko: "PM", selite: "Päästetyt maalit", luku: true, arvo: (r) => r.PM ?? "–" },
+      { otsikko: "PM/O", selite: "Päästetyt maalit per ottelu", luku: true, arvo: (r) => (r.PM != null && r.O ? desim(r.PM / r.O) : "–") },
+      { otsikko: "J", selite: "Jäähyminuutit", luku: true, arvo: (r) => r.J ?? 0 },
+    ], [...rivit].sort((a, b) => b.O - a.O)));
   }
 
   // "Pelaaja A 2, Pelaaja B" maalimäärän mukaan järjestettynä.

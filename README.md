@@ -36,6 +36,10 @@ Rivillä voi olla myös `kapteeni` ("C" tai "A"), `numero` ja `pelipaikka` ("H",
 jolloin ne näkyvät taulukossa. Jos luvut ovat kesken kauden, kaudelle voi
 lisätä kentän `tilanne: "10.1.2025"`, joka näytetään kausivalinnan vieressä.
 
+Maalivahtien kokonaisluvut annetaan kentässä `maalivahtitilastot`
+(V = voitot, TP = tasapelit, H = häviöt, PM = päästetyt maalit, J = jäähyminuutit):
+`{ nimi: "Maalivahti", O: 18, V: 12, TP: 3, H: 3, PM: 87, J: 3 }`.
+
 Kokonaislukujen jälkeen pelatut ottelut voi lisätä samalle kaudelle
 `pelaajat`- ja `ottelut`-listoina (ks. alla). Ne lasketaan kokonaislukujen
 päälle; pelaajat yhdistetään nimellä. Joukkue- ja maalivahtitilastoja ei

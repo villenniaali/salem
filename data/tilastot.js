@@ -7,6 +7,7 @@
 //     (O = ottelut, M = maalit, S = syötöt, J = jäähyminuutit).
 //     Pisteet ja per ottelu -luvut lasketaan automaattisesti.
 //     Valinnaiset: kapteeni ("C" tai "A"), numero, pelipaikka.
+//     maalivahtitilastot: valmiit maalivahtien kokonaisluvut (ks. README).
 //     Kauden "tilanne" kertoo, minkä päivän tilanteesta luvut ovat.
 //  2. pelaajat + ottelut: ottelukohtaiset tiedot, joista lasketaan myös
 //     joukkue- ja maalivahtitilastot sekä otteluluettelo.
@@ -182,6 +183,35 @@ window.TILASTOT = {
           jaahyt: [{ pelaaja: 24, min: 3 }],
           maalivahdit: [{ pelaaja: 1, paastetyt: 3 }],
         },
+      ],
+    },
+    {
+      nimi: "Talvi 2023",
+      // Lähde: Pisteporssi_talvi23.xlsx. Vierailijoiden yhteisrivi
+      // (8 O, 8+3=11, 6 min) jätetty pois.
+      pelaajatilastot: [
+        { nimi: "Eemil Kronqvist", O: 11, M: 29, S: 13, J: 12 },
+        { nimi: "Roni Joentausta", O: 15, M: 12, S: 22, J: 6 },
+        { nimi: "Kalle Koivusalo", O: 14, M: 14, S: 14, J: 9 },
+        { nimi: "Kimmo Hyvärinen", O: 15, M: 11, S: 17, J: 0 },
+        { nimi: "Saku-Pekka Aaramaa", O: 17, M: 7, S: 15, J: 9 },
+        { nimi: "Aapo Jokinen", O: 12, M: 5, S: 12, J: 0 },
+        { nimi: "Chris Bezek", O: 11, M: 4, S: 10, J: 18 },
+        { nimi: "Miska Päivärinta", O: 14, M: 3, S: 7, J: 0 },
+        { nimi: "Matti Karjalainen", O: 6, M: 4, S: 6, J: 3 },
+        { nimi: "Ville Sainio", O: 13, M: 3, S: 6, J: 6 },
+        { nimi: "Antti Visuri", O: 11, M: 5, S: 3, J: 6 },
+        { nimi: "Erik Hieta-Aho", O: 12, M: 0, S: 7, J: 9 },
+        { nimi: "Jussi Lehtisaari", O: 6, M: 3, S: 3, J: 3 },
+        { nimi: "Topi Ylihärsilä", O: 5, M: 0, S: 3, J: 3 },
+        { nimi: "Ville Aho", O: 10, M: 0, S: 3, J: 12 },
+        { nimi: "Ville Vine", O: 7, M: 0, S: 3, J: 0 },
+        { nimi: "Juhana Kronqvist", O: 3, M: 1, S: 0, J: 6 },
+        { nimi: "Marko Viitanen", O: 1, M: 0, S: 0, J: 3 },
+      ],
+      // V = voitot, H = häviöt, TP = tasapelit, PM = päästetyt maalit
+      maalivahtitilastot: [
+        { nimi: "Pekko Mörö", O: 18, V: 12, H: 3, TP: 3, PM: 87, J: 3 },
       ],
     },
   ],
