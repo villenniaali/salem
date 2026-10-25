@@ -186,7 +186,7 @@ window.TILASTOT = {
       ],
     },
     {
-      nimi: "Talvi 2023",
+      nimi: "Kausi 2023–2024",
       // Lähde: Pisteporssi_talvi23.xlsx. Vierailijoiden yhteisrivi
       // (8 O, 8+3=11, 6 min) jätetty pois.
       pelaajatilastot: [
@@ -215,7 +215,7 @@ window.TILASTOT = {
       ],
     },
     {
-      nimi: "Talvi 2022",
+      nimi: "Kausi 2022–2023",
       // Lähde: Pisteporssi_talvi22.xlsx. Vierailijoiden yhteisrivit
       // (kenttäpelaajat 7 O, 4+5=9; maalivahdit 4 O, 2–0–2, 20 PM, 1 S)
       // sekä pelaajat ilman otteluita jätetty pois.
@@ -242,7 +242,7 @@ window.TILASTOT = {
       ],
     },
     {
-      nimi: "Talvi 2021",
+      nimi: "Kausi 2021–2022",
       // Lähde: Pisteporssi_talvi21. Vierailijoiden yhteisrivit (19 O, 21+33=54; maalivahdit 5 O, 3–0–2, 46 PM)
       // sekä pelaajat ilman otteluita jätetty pois.
       pelaajatilastot: [
@@ -268,7 +268,7 @@ window.TILASTOT = {
       ],
     },
     {
-      nimi: "Talvi 2020",
+      nimi: "Kausi 2020–2021",
       // Lähde: Pisteporssi_talvi20.
       pelaajatilastot: [
         { nimi: "Olli Pajunen", O: 7, M: 3, S: 1, J: 3 },
