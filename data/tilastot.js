@@ -17,6 +17,107 @@ window.TILASTOT = {
 
   kaudet: [
     {
+      nimi: "Talvisarja 2026–27",
+      // Lähde: tulospalvelu.leijonat.fi, Harrastesarja 4 lohko 1.
+      pelaajat: [
+        { id: "pekko", numero: 1, nimi: "Pekko Mörö", pelipaikka: "MV" },
+        { id: "hartikainen", numero: 1, nimi: "Antti Hartikainen", pelipaikka: "MV" },
+        { id: "roni", numero: 3, nimi: "Roni Joentausta", kapteeni: "A" },
+        { id: "kalle", numero: 9, nimi: "Kalle Koivusalo" },
+        { id: "erik", numero: 14, nimi: "Erik Hieta-Aho" },
+        { id: "rantala", numero: 19, nimi: "Ville Rantala", kapteeni: "C" },
+        { id: "korppi", numero: 21, nimi: "Miika Korppi" },
+        { id: "samih", numero: 22, nimi: "Sami Heinonen" },
+        { id: "chris", numero: 24, nimi: "Chris Bezek" },
+        { id: "sainio", numero: 25, nimi: "Ville Sainio" },
+        { id: "veeti", numero: 26, nimi: "Veeti Vesaranta" },
+        { id: "henri", numero: 28, nimi: "Henri Peltonen" },
+        { id: "saku", numero: 35, nimi: "Saku-Pekka Aaramaa", kapteeni: "A" },
+        { id: "kimmo", numero: 44, nimi: "Kimmo Hyvärinen" },
+        { id: "helmut", numero: 47, nimi: "Helmut Walker Langholz" },
+        { id: "antti", numero: 49, nimi: "Antti Autero" },
+        { id: "jesse", numero: 62, nimi: "Jesse Syvänen" },
+        { id: "aapo", numero: 63, nimi: "Aapo Jokinen" },
+        { id: "eemil", numero: 71, nimi: "Eemil Björninen" },
+        { id: "oskari", numero: 73, nimi: "Oskari Vettenranta" },
+        { id: "vine", numero: 84, nimi: "Ville Vine", kapteeni: "A" },
+      ],
+      ottelut: [
+        {
+          pvm: "2026-09-27",
+          vastustaja: "Jatkoaika",
+          koti: false,
+          omat: 6,
+          vastustajan: 4,
+          jatkoaika: false,
+          // Kangasala, ott.nr 2730972.
+          pelanneet: ["pekko", "erik", "rantala", "korppi", "chris", "sainio", "veeti", "henri", "saku", "kimmo", "helmut", "eemil", "oskari", "vine"],
+          maalit: [
+            { maali: "sainio", syotot: ["rantala", "korppi"] },
+            { maali: "eemil", syotot: ["oskari", "korppi"] },
+            { maali: "korppi", syotot: ["saku", "sainio"] },
+            { maali: "saku", syotot: ["rantala", "korppi"] },
+            { maali: "sainio", syotot: ["vine"] },
+            { maali: "eemil", syotot: ["oskari"] }, // tyhjä maali
+          ],
+          jaahyt: [{ pelaaja: "kimmo", min: 3 }],
+          maalivahdit: [{ pelaaja: "pekko", torjunnat: 34, paastetyt: 4 }],
+        },
+        {
+          pvm: "2026-10-02",
+          vastustaja: "Näätähokkey",
+          koti: true,
+          omat: 3,
+          vastustajan: 6,
+          jatkoaika: false,
+          // Nokia, ott.nr 2730974.
+          pelanneet: ["pekko", "erik", "rantala", "korppi", "samih", "chris", "sainio", "veeti", "henri", "helmut", "aapo", "eemil", "oskari"],
+          maalit: [
+            { maali: "henri", syotot: ["sainio", "chris"] },
+            { maali: "eemil", syotot: ["chris", "oskari"] },
+            { maali: "henri", syotot: ["sainio", "korppi"] },
+          ],
+          jaahyt: [{ pelaaja: "henri", min: 3 }],
+          maalivahdit: [{ pelaaja: "pekko", torjunnat: 25, paastetyt: 6 }],
+        },
+        {
+          pvm: "2026-10-09",
+          vastustaja: "Manse Ducks",
+          koti: false,
+          omat: 3,
+          vastustajan: 7,
+          jatkoaika: false,
+          // Haka 3, ott.nr 2730979.
+          pelanneet: ["pekko", "roni", "rantala", "korppi", "samih", "chris", "sainio", "veeti", "kimmo", "helmut", "antti", "eemil", "oskari"],
+          maalit: [
+            { maali: "roni", syotot: ["samih", "rantala"] },
+            { maali: "roni", syotot: ["kimmo", "sainio"] },
+            { maali: "chris", syotot: ["kimmo", "rantala"] }, // yv
+          ],
+          jaahyt: [{ pelaaja: "kimmo", min: 3 }, { pelaaja: "samih", min: 3 }],
+          maalivahdit: [{ pelaaja: "pekko", torjunnat: 21, paastetyt: 7 }],
+        },
+        {
+          pvm: "2026-10-23",
+          vastustaja: "Team Siperia",
+          koti: true,
+          omat: 4,
+          vastustajan: 6,
+          jatkoaika: false,
+          // Hervanta 1, ott.nr 2730988. Torjuntoja ei tilastoitu.
+          pelanneet: ["hartikainen", "roni", "kalle", "rantala", "korppi", "samih", "henri", "saku", "kimmo", "helmut", "jesse", "oskari", "vine"],
+          maalit: [
+            { maali: "saku", syotot: ["kimmo", "helmut"] },
+            { maali: "roni", syotot: [] }, // av
+            { maali: "jesse", syotot: ["kimmo", "korppi"] },
+            { maali: "vine", syotot: ["henri", "roni"] },
+          ],
+          jaahyt: [{ pelaaja: "rantala", min: 3 }, { pelaaja: "henri", min: 3 }, { pelaaja: "helmut", min: 3 }, { pelaaja: "henri", min: 3 }],
+          maalivahdit: [{ pelaaja: "hartikainen", paastetyt: 6 }],
+        },
+      ],
+    },
+    {
       nimi: "Kevätsarja 2026",
       allTime: false,
       // Pelinumerot vaihtelivat otteluittain, joten pelaajiin viitataan tunnisteella.
