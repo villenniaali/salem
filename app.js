@@ -227,8 +227,9 @@
       { otsikko: "H", selite: "Häviöt", luku: true, arvo: (r) => r.H ?? "–" },
       { otsikko: "PM", selite: "Päästetyt maalit", luku: true, arvo: (r) => r.PM ?? "–" },
       { otsikko: "PM/O", selite: "Päästetyt maalit per ottelu", luku: true, arvo: (r) => (r.PM != null && r.O ? desim(r.PM / r.O) : "–") },
+      rivit.some((r) => r.S != null) && { otsikko: "S", selite: "Syötöt", luku: true, arvo: (r) => r.S ?? 0 },
       { otsikko: "J", selite: "Jäähyminuutit", luku: true, arvo: (r) => r.J ?? 0 },
-    ], [...rivit].sort((a, b) => b.O - a.O)));
+    ].filter(Boolean), [...rivit].sort((a, b) => b.O - a.O)));
   }
 
   // "Pelaaja A 2, Pelaaja B" maalimäärän mukaan järjestettynä.

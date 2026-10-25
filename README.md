@@ -39,6 +39,7 @@ lisätä kentän `tilanne: "10.1.2025"`, joka näytetään kausivalinnan vieress
 Maalivahtien kokonaisluvut annetaan kentässä `maalivahtitilastot`
 (V = voitot, TP = tasapelit, H = häviöt, PM = päästetyt maalit, J = jäähyminuutit):
 `{ nimi: "Maalivahti", O: 18, V: 12, TP: 3, H: 3, PM: 87, J: 3 }`.
+Maalivahdin syötöt voi lisätä kenttään `S`.
 
 Kokonaislukujen jälkeen pelatut ottelut voi lisätä samalle kaudelle
 `pelaajat`- ja `ottelut`-listoina (ks. alla). Ne lasketaan kokonaislukujen

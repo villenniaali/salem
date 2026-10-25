@@ -214,5 +214,32 @@ window.TILASTOT = {
         { nimi: "Pekko Mörö", O: 18, V: 12, H: 3, TP: 3, PM: 87, J: 3 },
       ],
     },
+    {
+      nimi: "Talvi 2022",
+      // Lähde: Pisteporssi_talvi22.xlsx. Vierailijoiden yhteisrivit
+      // (kenttäpelaajat 7 O, 4+5=9; maalivahdit 4 O, 2–0–2, 20 PM, 1 S)
+      // sekä pelaajat ilman otteluita jätetty pois.
+      pelaajatilastot: [
+        { nimi: "Roni Joentausta", O: 16, M: 30, S: 14, J: 9 },
+        { nimi: "Ville Aho", O: 18, M: 2, S: 7, J: 6 },
+        { nimi: "Miika Heinonen", O: 3, M: 1, S: 0, J: 6 },
+        { nimi: "Eemil Kronqvist", O: 11, M: 30, S: 2, J: 12 },
+        { nimi: "Chris Bezek", O: 13, M: 12, S: 7, J: 3 },
+        { nimi: "Ville Sainio", O: 17, M: 16, S: 7, J: 9 },
+        { nimi: "Kalle Peltonen", O: 8, M: 3, S: 13, J: 6 },
+        { nimi: "Saku-Pekka Aaramaa", O: 13, M: 1, S: 12, J: 30 },
+        { nimi: "Juhana Kronqvist", O: 9, M: 4, S: 7, J: 24 },
+        { nimi: "Jussi Lehtisaari", O: 11, M: 1, S: 11, J: 15 },
+        { nimi: "Aapo Jokinen", O: 14, M: 3, S: 14, J: 9 },
+        { nimi: "Matti Karjalainen", O: 10, M: 3, S: 3, J: 6 },
+        { nimi: "Ville Vine", O: 11, M: 0, S: 4, J: 0 },
+        { nimi: "Erik Hieta-Aho", O: 11, M: 0, S: 8, J: 9 },
+        { nimi: "Kimmo Hyvärinen", O: 14, M: 10, S: 24, J: 6 },
+      ],
+      maalivahtitilastot: [
+        { nimi: "Pekko Mörö", O: 13, V: 9, H: 1, TP: 3, PM: 39, J: 0, S: 2 },
+        { nimi: "Saku-Pekka Aaramaa", O: 1, V: 1, H: 0, TP: 0, PM: 1, J: 0, S: 1 },
+      ],
+    },
   ],
 };
