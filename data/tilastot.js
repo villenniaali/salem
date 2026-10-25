@@ -115,6 +115,25 @@ window.TILASTOT = {
           jaahyt: [{ pelaaja: "rantala", min: 3 }, { pelaaja: "henri", min: 3 }, { pelaaja: "helmut", min: 3 }, { pelaaja: "henri", min: 3 }],
           maalivahdit: [{ pelaaja: "hartikainen", paastetyt: 6 }],
         },
+        {
+          pvm: "2026-10-25",
+          vastustaja: "Mansen Kiekko",
+          koti: true,
+          omat: 5,
+          vastustajan: 4,
+          jatkoaika: false,
+          // Nokia, ott.nr 2730984.
+          pelanneet: ["pekko", "roni", "kalle", "erik", "korppi", "chris", "sainio", "henri", "saku", "kimmo", "helmut", "eemil", "oskari", "vine"],
+          maalit: [
+            { maali: "saku", syotot: ["henri", "oskari"] },
+            { maali: "korppi", syotot: ["henri", "sainio"] },
+            { maali: "henri", syotot: ["korppi", "saku"] },
+            { maali: "eemil", syotot: ["kimmo"] },
+            { maali: "sainio", syotot: ["oskari", "roni"] },
+          ],
+          jaahyt: [{ pelaaja: "henri", min: 3 }, { pelaaja: "saku", min: 3 }, { pelaaja: "kalle", min: 3 }, { pelaaja: "erik", min: 3 }],
+          maalivahdit: [{ pelaaja: "pekko", torjunnat: 21, paastetyt: 4 }],
+        },
       ],
     },
     {
