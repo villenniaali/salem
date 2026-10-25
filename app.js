@@ -26,14 +26,17 @@
     return t;
   }
 
+  // Ottelutiedoissa pelaajaan viitataan tunnisteella (id) tai pelinumerolla.
+  const avain = (p) => p.id ?? p.numero;
+
   function laskePelaajat(pelaajat, ottelut) {
     const rivit = new Map();
     for (const p of pelaajat) {
-      rivit.set(p.numero, { ...p, O: 0, M: 0, S: 0, J: 0 });
+      rivit.set(avain(p), { ...p, O: 0, M: 0, S: 0, J: 0 });
     }
     const hae = (nro) => {
       const r = rivit.get(nro);
-      if (!r) throw new Error("Tuntematon pelinumero: " + nro);
+      if (!r) throw new Error("Tuntematon pelaaja: " + nro);
       return r;
     };
     for (const o of ottelut) {
@@ -80,7 +83,7 @@
   function laskeMaalivahdit(pelaajat, ottelut) {
     const rivit = new Map();
     for (const p of pelaajat.filter((p) => p.pelipaikka === "MV")) {
-      rivit.set(p.numero, { ...p, O: 0, V: 0, T: 0, PM: 0, NP: 0 });
+      rivit.set(avain(p), { ...p, O: 0, V: 0, T: 0, PM: 0, NP: 0 });
     }
     for (const o of ottelut) {
       for (const mv of o.maalivahdit) {
@@ -174,7 +177,7 @@
   function piirraKausi(kausi) {
     const ottelut = [...(kausi.ottelut || [])].sort((a, b) => a.pvm.localeCompare(b.pvm));
     const pelaajat = kausi.pelaajat || [];
-    const nimi = (nro) => pelaajat.find((p) => p.numero === nro)?.nimi ?? "#" + nro;
+    const nimi = (a) => pelaajat.find((p) => avain(p) === a)?.nimi ?? "#" + a;
     const onOttelut = ottelut.length > 0;
 
     document.title = `${data.joukkue} – ${kausi.nimi}`;
@@ -239,17 +242,19 @@
       { otsikko: "P", selite: "Sarjapisteet", luku: true, arvo: (r) => r.P },
     ], [t]));
 
+    const mv = laskeMaalivahdit(pelaajat, ottelut);
+    const onTorjunnat = mv.some((r) => r.T != null);
     document.getElementById("maalivahdit").replaceChildren(taulukko([
-      { otsikko: "#", luku: true, arvo: (r) => r.numero },
+      mv.some((r) => r.numero != null) && { otsikko: "#", luku: true, arvo: (r) => r.numero ?? "" },
       { otsikko: "Maalivahti", arvo: (r) => r.nimi },
       { otsikko: "O", selite: "Ottelut", luku: true, arvo: (r) => r.O },
       { otsikko: "V", selite: "Voitot", luku: true, arvo: (r) => r.V },
-      { otsikko: "T", selite: "Torjunnat", luku: true, arvo: (r) => r.T ?? "–" },
+      onTorjunnat && { otsikko: "T", selite: "Torjunnat", luku: true, arvo: (r) => r.T ?? "–" },
       { otsikko: "PM", selite: "Päästetyt maalit", luku: true, arvo: (r) => r.PM },
-      { otsikko: "T%", selite: "Torjuntaprosentti", luku: true, arvo: (r) => pros(r.torjuntaPros) },
+      onTorjunnat && { otsikko: "T%", selite: "Torjuntaprosentti", luku: true, arvo: (r) => pros(r.torjuntaPros) },
       { otsikko: "PM/O", selite: "Päästetyt maalit per ottelu", luku: true, arvo: (r) => desim(r.pmKa) },
       { otsikko: "NP", selite: "Nollapelit", luku: true, arvo: (r) => r.NP },
-    ], laskeMaalivahdit(pelaajat, ottelut)));
+    ].filter(Boolean), mv));
   }
 
   function piirraMaalivahtitilastot(rivit) {
@@ -280,8 +285,9 @@
   function piirraOttelut(ottelut, nimi) {
     document.getElementById("ottelut").replaceChildren(taulukko([
       { otsikko: "Pvm", arvo: (o) => pvm(o.pvm) },
-      { otsikko: "Ottelu", arvo: (o) => (o.koti ? `${data.joukkue} – ${o.vastustaja}` : `${o.vastustaja} – ${data.joukkue}`) },
-      { otsikko: "Tulos", arvo: (o) => (o.koti ? `${o.omat}–${o.vastustajan}` : `${o.vastustajan}–${o.omat}`) + (o.jatkoaika ? " ja" : "") },
+      // Jos koti/vieras ei ole tiedossa (koti puuttuu), oma joukkue näytetään ensin.
+      { otsikko: "Ottelu", arvo: (o) => (o.koti !== false ? `${data.joukkue} – ${o.vastustaja}` : `${o.vastustaja} – ${data.joukkue}`) },
+      { otsikko: "Tulos", arvo: (o) => (o.koti !== false ? `${o.omat}–${o.vastustajan}` : `${o.vastustajan}–${o.omat}`) + (o.jatkoaika ? " ja" : "") },
       { otsikko: "", arvo: (o) => otteluTulos(o) },
       { otsikko: "Omat maalintekijät", rivita: true, arvo: (o) => maalintekijat(o, nimi) },
     ], [...ottelut].reverse()));
