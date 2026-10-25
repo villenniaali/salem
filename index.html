@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="fi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Salem Zealots – tilastot</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <h1 id="otsikko">Salem Zealots</h1>
+    <p id="kausi"></p>
+  </header>
+  <main>
+    <p id="virhe" class="virhe"></p>
+    <section id="yhteenveto" class="kortit"></section>
+
+    <h2>Joukkue</h2>
+    <section id="joukkue"></section>
+
+    <h2>Pistepörssi</h2>
+    <section id="pelaajat"></section>
+
+    <h2>Maalivahdit</h2>
+    <section id="maalivahdit"></section>
+
+    <h2>Ottelut</h2>
+    <section id="ottelut"></section>
+  </main>
+  <footer>
+    V = voitto, JV = jatkoaikavoitto, JH = jatkoaikahäviö, H = häviö.
+    Sarjapisteet 3–2–1–0. Vie hiiri sarakeotsikon päälle nähdäksesi selitteen.
+  </footer>
+  <script src="data/tilastot.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
