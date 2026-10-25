@@ -41,6 +41,9 @@ Maalivahtien kokonaisluvut annetaan kentässä `maalivahtitilastot`
 `{ nimi: "Maalivahti", O: 18, V: 12, TP: 3, H: 3, PM: 87, J: 3 }`.
 Maalivahdin syötöt voi lisätä kenttään `S`.
 
+Kausi jätetään all-time-tilastosta pois kentällä `allTime: false`
+(näin on tehty kevätsarjalle).
+
 Kokonaislukujen jälkeen pelatut ottelut voi lisätä samalle kaudelle
 `pelaajat`- ja `ottelut`-listoina (ks. alla). Ne lasketaan kokonaislukujen
 päälle; pelaajat yhdistetään nimellä. Joukkue- ja maalivahtitilastoja ei

@@ -162,15 +162,17 @@
   }
 
   function kaikkiKaudet() {
-    const ekat = data.kaudet.at(-1).nimi.match(/\d{4}/)[0];
-    const vikat = data.kaudet[0].nimi.match(/\d{4}–\d{2}/)?.[0].slice(-2) ?? "";
+    // Kaudet, joilla on allTime: false (esim. kevätsarja), jätetään pois.
+    const kaudet = data.kaudet.filter((k) => k.allTime !== false);
+    const ekat = kaudet.at(-1).nimi.match(/\d{4}/)[0];
+    const vikat = kaudet[0].nimi.match(/\d{4}–\d{2}/)?.[0].slice(-2) ?? "";
     return {
       nimi: "Kaikki kaudet",
       tilanne: `${ekat}–${vikat}`,
       kaikki: true,
-      pelaajatilastot: summaaKaudet(data.kaudet.map(kaudenPelaajat), ["O", "M", "S", "J"]),
+      pelaajatilastot: summaaKaudet(kaudet.map(kaudenPelaajat), ["O", "M", "S", "J"]),
       maalivahtitilastot: summaaKaudet(
-        data.kaudet.map((k) => k.maalivahtitilastot || []), ["O", "V", "TP", "H", "PM", "J", "S"]),
+        kaudet.map((k) => k.maalivahtitilastot || []), ["O", "V", "TP", "H", "PM", "J", "S"]),
     };
   }
 
@@ -298,7 +300,7 @@
     const valinta = document.getElementById("kausi");
     valinta.replaceChildren(
       ...data.kaudet.map((k, i) => el("option", { value: i }, k.nimi)),
-      el("option", { value: "kaikki" }, "Kaikki kaudet (all-time)"));
+      el("option", { value: "kaikki" }, "Talvisarjat yhteensä (all-time)"));
     valinta.disabled = data.kaudet.length < 2;
     valinta.onchange = () =>
       naytaKausi(valinta.value === "kaikki" ? kaikkiKaudet() : data.kaudet[valinta.value]);

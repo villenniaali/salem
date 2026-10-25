@@ -18,6 +18,7 @@ window.TILASTOT = {
   kaudet: [
     {
       nimi: "Kevätsarja 2026",
+      allTime: false,
       // Pelinumerot vaihtelivat otteluittain, joten pelaajiin viitataan tunnisteella.
       pelaajat: [
         { id: "pekko", nimi: "Pekko Mörö", pelipaikka: "MV" },
