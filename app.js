@@ -139,6 +139,38 @@
     for (const e of document.querySelectorAll(`[data-osio="${id}"]`)) e.hidden = !nayta;
   };
 
+  // Kauden pelaajarivit: kokonaisluvut + niiden jälkeen pelatut ottelut.
+  function kaudenPelaajat(kausi) {
+    const lasketut = laskePelaajat(kausi.pelaajat || [], kausi.ottelut || []);
+    return kausi.pelaajatilastot ? yhdista(kausi.pelaajatilastot, lasketut) : lasketut;
+  }
+
+  // Laskee kaikkien kausien rivit yhteen nimen perusteella.
+  function summaaKaudet(rivitKausittain, kentat) {
+    const summat = new Map();
+    for (const rivit of rivitKausittain) {
+      for (const r of rivit) {
+        const s = summat.get(r.nimi) ?? summat.set(r.nimi, { nimi: r.nimi, kaudet: 0 }).get(r.nimi);
+        s.kaudet++;
+        for (const k of kentat) if (r[k] != null) s[k] = (s[k] ?? 0) + r[k];
+      }
+    }
+    return [...summat.values()];
+  }
+
+  function kaikkiKaudet() {
+    const ekat = data.kaudet.at(-1).nimi.match(/\d{4}/)[0];
+    const vikat = data.kaudet[0].nimi.match(/\d{4}–\d{2}/)?.[0].slice(-2) ?? "";
+    return {
+      nimi: "Kaikki kaudet",
+      tilanne: `${ekat}–${vikat}`,
+      kaikki: true,
+      pelaajatilastot: summaaKaudet(data.kaudet.map(kaudenPelaajat), ["O", "M", "S", "J"]),
+      maalivahtitilastot: summaaKaudet(
+        data.kaudet.map((k) => k.maalivahtitilastot || []), ["O", "V", "TP", "H", "PM", "J", "S"]),
+    };
+  }
+
   function piirraKausi(kausi) {
     const ottelut = [...(kausi.ottelut || [])].sort((a, b) => a.pvm.localeCompare(b.pvm));
     const pelaajat = kausi.pelaajat || [];
@@ -150,14 +182,15 @@
     // joukkue- ja maalivahtitilastoja, joten niistä näytetään vain ottelulista.
     const onKokonaiset = Boolean(kausi.pelaajatilastot);
     const tilanne = onKokonaiset && onOttelut ? pvm(ottelut.at(-1).pvm) : kausi.tilanne;
-    document.getElementById("tilanne").textContent = tilanne ? `Tilanne ${tilanne}` : "";
+    document.getElementById("tilanne").textContent =
+      kausi.kaikki ? `Talvisarjat ${tilanne}` : tilanne ? `Tilanne ${tilanne}` : "";
     for (const id of ["yhteenveto", "joukkue"]) naytaOsio(id, onOttelut && !onKokonaiset);
     naytaOsio("maalivahdit", Boolean(kausi.maalivahtitilastot) || (onOttelut && !onKokonaiset));
     naytaOsio("ottelut", onOttelut);
     if (kausi.maalivahtitilastot) piirraMaalivahtitilastot(kausi.maalivahtitilastot);
 
-    const lasketut = laskePelaajat(pelaajat, ottelut);
-    const pisteet = pistejarjestys(onKokonaiset ? yhdista(kausi.pelaajatilastot, lasketut) : lasketut);
+    const pisteet = pistejarjestys(kaudenPelaajat(kausi));
+    const onKaudet = pisteet.some((r) => r.kaudet != null);
     const onNumerot = pisteet.some((r) => r.numero != null);
     const onPaikat = pisteet.some((r) => r.pelipaikka);
     const perOttelu = (x, r) => (r.O ? desim(x / r.O) : "–");
@@ -166,6 +199,7 @@
       onNumerot && { otsikko: "#", luku: true, arvo: (r) => r.numero ?? "" },
       { otsikko: "Pelaaja", arvo: (r) => r.nimi + (r.kapteeni ? ` (${r.kapteeni})` : "") },
       onPaikat && { otsikko: "PP", selite: "Pelipaikka", arvo: (r) => r.pelipaikka ?? "" },
+      onKaudet && { otsikko: "K", selite: "Kaudet", luku: true, arvo: (r) => r.kaudet },
       { otsikko: "O", selite: "Ottelut", luku: true, arvo: (r) => r.O },
       { otsikko: "M", selite: "Maalit", luku: true, arvo: (r) => r.M },
       { otsikko: "S", selite: "Syötöt", luku: true, arvo: (r) => r.S },
@@ -221,6 +255,7 @@
   function piirraMaalivahtitilastot(rivit) {
     document.getElementById("maalivahdit").replaceChildren(taulukko([
       { otsikko: "Maalivahti", arvo: (r) => r.nimi },
+      rivit.some((r) => r.kaudet != null) && { otsikko: "K", selite: "Kaudet", luku: true, arvo: (r) => r.kaudet },
       { otsikko: "O", selite: "Ottelut", luku: true, arvo: (r) => r.O },
       { otsikko: "V", selite: "Voitot", luku: true, arvo: (r) => r.V ?? "–" },
       { otsikko: "TP", selite: "Tasapelit", luku: true, arvo: (r) => r.TP ?? "–" },
@@ -255,9 +290,12 @@
   function piirra() {
     document.getElementById("otsikko").textContent = data.joukkue;
     const valinta = document.getElementById("kausi");
-    valinta.replaceChildren(...data.kaudet.map((k, i) => el("option", { value: i }, k.nimi)));
+    valinta.replaceChildren(
+      ...data.kaudet.map((k, i) => el("option", { value: i }, k.nimi)),
+      el("option", { value: "kaikki" }, "Kaikki kaudet (all-time)"));
     valinta.disabled = data.kaudet.length < 2;
-    valinta.onchange = () => naytaKausi(data.kaudet[valinta.value]);
+    valinta.onchange = () =>
+      naytaKausi(valinta.value === "kaikki" ? kaikkiKaudet() : data.kaudet[valinta.value]);
     naytaKausi(data.kaudet[0]);
   }
 
