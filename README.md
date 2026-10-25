@@ -24,7 +24,7 @@ Riittää pistepörssiin. Pisteet, sijat ja per ottelu -luvut lasketaan itse.
 
 ```js
 {
-  nimi: "Runkosarja 2025–2026",
+  nimi: "Talvisarja 2025–26",
   pelaajatilastot: [
     // O = ottelut, M = maalit, S = syötöt, J = jäähyminuutit
     { nimi: "Pelaaja Yksi", O: 15, M: 7, S: 19, J: 6 },
@@ -52,7 +52,7 @@ Tästä lasketaan myös joukkue- ja maalivahtitilastot sekä otteluluettelo.
 
 ```js
 {
-  nimi: "Runkosarja 2026–2027",
+  nimi: "Talvisarja 2026–27",
   // pelipaikka: "H" = hyökkääjä, "P" = puolustaja, "MV" = maalivahti
   pelaajat: [
     { numero: 1, nimi: "Maalivahti", pelipaikka: "MV" },

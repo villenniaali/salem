@@ -17,7 +17,7 @@ window.TILASTOT = {
 
   kaudet: [
     {
-      nimi: "Runkosarja 2025–2026",
+      nimi: "Talvisarja 2025–26",
       pelaajatilastot: [
         { nimi: "Roni Joentausta", O: 15, M: 7, S: 19, J: 6 },
         { nimi: "Jesse Ramsten", O: 13, M: 18, S: 7, J: 15 },
@@ -40,7 +40,7 @@ window.TILASTOT = {
       ],
     },
     {
-      nimi: "Runkosarja 2024–2025",
+      nimi: "Talvisarja 2024–25",
       tilanne: "10.1.2025",
       pelaajatilastot: [
         { nimi: "Kalle Koivusalo", O: 13, M: 4, S: 10, J: 9 },
@@ -186,7 +186,7 @@ window.TILASTOT = {
       ],
     },
     {
-      nimi: "Kausi 2023–2024",
+      nimi: "Talvisarja 2023–24",
       // Lähde: Pisteporssi_talvi23.xlsx. Vierailijoiden yhteisrivi
       // (8 O, 8+3=11, 6 min) jätetty pois.
       pelaajatilastot: [
@@ -215,7 +215,7 @@ window.TILASTOT = {
       ],
     },
     {
-      nimi: "Kausi 2022–2023",
+      nimi: "Talvisarja 2022–23",
       // Lähde: Pisteporssi_talvi22.xlsx. Vierailijoiden yhteisrivit
       // (kenttäpelaajat 7 O, 4+5=9; maalivahdit 4 O, 2–0–2, 20 PM, 1 S)
       // sekä pelaajat ilman otteluita jätetty pois.
@@ -242,7 +242,7 @@ window.TILASTOT = {
       ],
     },
     {
-      nimi: "Kausi 2021–2022",
+      nimi: "Talvisarja 2021–22",
       // Lähde: Pisteporssi_talvi21. Vierailijoiden yhteisrivit (19 O, 21+33=54; maalivahdit 5 O, 3–0–2, 46 PM)
       // sekä pelaajat ilman otteluita jätetty pois.
       pelaajatilastot: [
@@ -268,7 +268,7 @@ window.TILASTOT = {
       ],
     },
     {
-      nimi: "Kausi 2020–2021",
+      nimi: "Talvisarja 2020–21",
       // Lähde: Pisteporssi_talvi20.
       pelaajatilastot: [
         { nimi: "Olli Pajunen", O: 7, M: 3, S: 1, J: 3 },
@@ -297,7 +297,7 @@ window.TILASTOT = {
       ],
     },
     {
-      nimi: "Kausi 2019–2020",
+      nimi: "Talvisarja 2019–20",
       // Lähde: Pisteporssi_19-20. Vierailevan maalivahdin rivi (1 O, 1–0–0, 0 PM)
       // sekä pelaajat ilman otteluita jätetty pois.
       pelaajatilastot: [
@@ -325,7 +325,7 @@ window.TILASTOT = {
       ],
     },
     {
-      nimi: "Kausi 2018–2019",
+      nimi: "Talvisarja 2018–19",
       // Lähde: Pisteporssi_18-19. Pelaajat ilman otteluita jätetty pois.
       pelaajatilastot: [
         { nimi: "Roman Tiinus", O: 13, M: 24, S: 24, J: 3 },
@@ -353,7 +353,7 @@ window.TILASTOT = {
       ],
     },
     {
-      nimi: "Kausi 2017–2018",
+      nimi: "Talvisarja 2017–18",
       // Lähde: Pisteporssi17_18.
       pelaajatilastot: [
         { nimi: "Miika Korppi", O: 11, M: 10, S: 11, J: 3 },
@@ -382,8 +382,8 @@ window.TILASTOT = {
       ],
     },
     {
-      nimi: "Kausi 2016–2017 (?)",
-      // Lähde: Pisteporssi (tiedostonimessä ei kautta; oletettu 2016–2017).
+      nimi: "Talvisarja 2016–17",
+      // Lähde: Pisteporssi (tiedostonimessä ei kautta; kausi 2016–2017).
       // Tasapelejä ei ole tilastoitu.
       pelaajatilastot: [
         { nimi: "Riku-Ville Heikkilä", O: 13, M: 3, S: 8, J: 6 },
